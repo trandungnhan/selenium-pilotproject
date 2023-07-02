@@ -3,6 +3,7 @@ package theinternet;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -10,7 +11,12 @@ public class LoginPageTest {
 
     @Test
     void LoginSuccess(){
-        WebDriver driver = new ChromeDriver();
+        //WebDriver driver = new ChromeDriver();
+        WebDriver driver;
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless=new");
+        driver = new ChromeDriver(chromeOptions);
+
         driver.get("https://the-internet.herokuapp.com/login");
 
         By usernameTextBox = By.id("username");
