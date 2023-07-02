@@ -2,14 +2,17 @@ package magento;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.List;
 
 public class magentoTest {
 
@@ -59,4 +62,32 @@ public class magentoTest {
         Assert.assertEquals(notification, "Search results for: 'pants'");
     }
 
+    @Test
+    void verifyHoverAndSelectFirstProduct() throws InterruptedException {
+        By searchTextBox = By.cssSelector("input[id='search']");
+        By notificationElem = By.cssSelector("span[class='base']");
+        By searchButton = By.cssSelector("button[title='Search']");
+        By firstProductElem = By.cssSelector("ol[class='products list items product-items'] li:nth-of-type(1)");
+
+ //     WebDriver driver = new ChromeDriver();
+        WebDriver driver;
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless=new");
+        driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://magento.softwaretestingboard.com/");
+
+        driver.findElement(searchTextBox).sendKeys("pants");
+
+        driver.findElement(searchButton).click();
+
+        String notification = driver.findElement(notificationElem).getText();
+
+        Assert.assertEquals(notification, "Search results for: 'pants'");
+
+        Actions mouse = new Actions(driver);
+
+        mouse.moveToElement(driver.findElement(firstProductElem)).perform();
+
+    }
 }
