@@ -1,0 +1,187 @@
+Copyright (C) Microsoft Corporation. All rights reserved.
+PS F:\TVN Selenium\Pilot01> git remote add origin https://github.com/trandungnhan/selenium-pilotproject.git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+PS F:\TVN Selenium\Pilot01> git remote add origin https://github.com/trandungnhan/selenium-pilotproject.git
+fatal: not a git repository (or any of the parent directories): .git
+PS F:\TVN Selenium\Pilot01> git remote add origin https://github.com/trandungnhan/selenium-pilotproject.git
+fatal: not a git repository (or any of the parent directories): .git
+PS F:\TVN Selenium\Pilot01> git init
+Initialized empty Git repository in F:/TVN Selenium/Pilot01/.git/
+PS F:\TVN Selenium\Pilot01> git remote add origin https://github.com/trandungnhan/selenium-pilotproject.git
+PS F:\TVN Selenium\Pilot01> git branch -M main
+PS F:\TVN Selenium\Pilot01> git push -u origin main
+error: src refspec main does not match any
+error: failed to push some refs to 'https://github.com/trandungnhan/selenium-pilotproject.git'
+PS F:\TVN Selenium\Pilot01> git status
+On branch main
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+d-----         6/30/2023  11:01 PM                target
+-a----          7/1/2023   4:20 PM          13793 FinalExam.docx
+-a----         6/30/2023   9:15 PM           1066 pom.xml
+
+
+PS F:\TVN Selenium\Pilot01> ls -ll
+Get-ChildItem : A parameter cannot be found that matches parameter name 'll'.
+At line:1 char:4
++ ls -ll
++    ~~~
+    + CategoryInfo          : InvalidArgument: (:) [Get-ChildItem], ParameterBindingException
+    + FullyQualifiedErrorId : NamedParameterNotFound,Microsoft.PowerShell.Commands.GetChildItemCommand
+
+PS F:\TVN Selenium\Pilot01> git checkout
+   9 git status
+  10 ls
+  11 ls -ll
+  12 git checkout
+  13 git status
+  14 git add .\src\ .\target\
+
+PS F:\TVN Selenium\Pilot01> ls                                                                             
+
+    Directory: F:\TVN Selenium\Pilot01
+
+
+Mode                 LastWriteTime         Length Name                                                                                                                                                                                  
+----                 -------------         ------ ----                                                                                                                                                                                  
+d-----          7/1/2023   8:32 PM                .idea                                                                                                                                                                                 
+d-----         6/30/2023   9:13 PM                src                                                                                                                                                                                   
+d-----         6/30/2023  11:01 PM                target                                                                                                                                                                                
+-a----          7/1/2023   4:20 PM          13793 FinalExam.docx                                                                                                                                                                        
+-a----         6/30/2023   9:15 PM           1066 pom.xml                                                                                                                                                                               
+
+
+PS F:\TVN Selenium\Pilot01> 
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   .gitignore
+        new file:   src/test/java/magento/magentoTest.java
+        new file:   src/test/java/theinternet/LoginPageTest.java
+        new file:   target/test-classes/theinternet/LoginPageTest.class
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .idea/
+        FinalExam.docx
+        pom.xml
+        ~$nalExam.docx
+warning: LF will be replaced by CRLF in pom.xml.
+The file will have its original line endings in your working directory
+PS F:\TVN Selenium\Pilot01> git commit -m "init project"
+[main (root-commit) f49b73f] init project
+ 6 files changed, 98 insertions(+)
+ create mode 100644 pom.xml
+ create mode 100644 src/test/java/magento/magentoTest.java
+ create mode 100644 target/test-classes/magento/magentoTest.class
+PS F:\TVN Selenium\Pilot01> git push
+
+    git push --set-upstream origin main
+
+PS F:\TVN Selenium\Pilot01>
+PS F:\TVN Selenium\Pilot01>
+PS F:\TVN Selenium\Pilot01> git commit -m "init project"
+On branch main
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        FinalExam.docx
+        ~$nalExam.docx
+
+nothing added to commit but untracked files present (use "git add" to track)
+PS F:\TVN Selenium\Pilot01> git status
+On branch main
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .idea/
+        FinalExam.docx
+
+nothing added to commit but untracked files present (use "git add" to track)
+PS F:\TVN Selenium\Pilot01> git checkout
+PS F:\TVN Selenium\Pilot01> git push
+fatal: The current branch main has no upstream branch.
+To push the current branch and set the remote as upstream, use
+
+    git push --set-upstream origin main
+
+PS F:\TVN Selenium\Pilot01> git push -u origin master
+error: src refspec master does not match any
+error: failed to push some refs to 'https://github.com/trandungnhan/selenium-pilotproject.git'
+PS F:\TVN Selenium\Pilot01> git remote add origin https://github.com/trandungnhan/selenium-pilotproject.git
+error: remote origin already exists.
+PS F:\TVN Selenium\Pilot01> git remote add origin https://github.com/trandungnhan/selenium-pilotproject.git
+error: remote origin already exists.
+PS F:\TVN Selenium\Pilot01> git branch -M main
+PS F:\TVN Selenium\Pilot01> git push -u origin main
+Enumerating objects: 17, done.
+Counting objects: 100% (17/17), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (9/9), done.
+Writing objects: 100% (17/17), 3.93 KiB | 804.00 KiB/s, done.
+Total 17 (delta 0), reused 0 (delta 0), pack-reused 0
+To https://github.com/trandungnhan/selenium-pilotproject.git
+ * [new branch]      main -> main
+Branch 'main' set up to track remote branch 'main' from 'origin'.
+PS F:\TVN Selenium\Pilot01> git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .idea/
+        FinalExam.docx
+
+
+PS F:\TVN Selenium\Pilot01>
+PS F:\TVN Selenium\Pilot01>
+PS F:\TVN Selenium\Pilot01> histpry
+histpry : The term 'histpry' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ ~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (histpry:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+ 
+PS F:\TVN Selenium\Pilot01> history
+
+  Id CommandLine
+  -- -----------
+   1 git remote add origin https://github.com/trandungnhan/selenium-pilotproject.git
+   2 git status
+   3 git remote add origin https://github.com/trandungnhan/selenium-pilotproject.git
+   4 git remote add origin https://github.com/trandungnhan/selenium-pilotproject.git
+   5 git init
+   6 git remote add origin https://github.com/trandungnhan/selenium-pilotproject.git
+  30 git status
+  31 git push
+  32 histpry
+
+
+PS F:\TVN Selenium\Pilot01>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

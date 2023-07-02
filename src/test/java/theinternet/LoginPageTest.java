@@ -25,11 +25,11 @@ public class LoginPageTest {
 
         String successfulMeg = driver.findElement(messageElem).getText();
         Assert.assertEquals(successfulMeg,"Welcome to the Secure Area. When you are done click logout below.");
-
-
-
+        driver.quit();
 
     }
+
+
 
 
 }
