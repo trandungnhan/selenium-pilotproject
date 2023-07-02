@@ -28,6 +28,25 @@ public class magentoTest {
         Assert.assertEquals(welcomeMeg,"Default welcome msg!");
 
         driver.quit();
-
     }
+
+    @Test
+    void verifySearchPants() {
+        By searchTextBox = By.cssSelector("input[id='search']");
+        By notificationElem = By.cssSelector("span[class='base']");
+        By searchButton = By.cssSelector("button[title='Search']");
+
+        WebDriver driver = new ChromeDriver();
+
+        driver.get("https://magento.softwaretestingboard.com/");
+
+        driver.findElement(searchTextBox).sendKeys("pants");
+
+        driver.findElement(searchButton).click();
+
+        String notification = driver.findElement(notificationElem).getText();
+
+        Assert.assertEquals(notification, "Search results for: 'pants'");
+    }
+
 }
