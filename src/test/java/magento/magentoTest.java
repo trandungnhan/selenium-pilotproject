@@ -2,7 +2,6 @@ package magento;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
@@ -12,7 +11,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
-import java.util.List;
 
 public class magentoTest {
 
@@ -68,14 +66,24 @@ public class magentoTest {
         By notificationElem = By.cssSelector("span[class='base']");
         By searchButton = By.cssSelector("button[title='Search']");
         By firstProductElem = By.cssSelector("ol[class='products list items product-items'] li:nth-of-type(1)");
+        By firstSizeElem = By.xpath("//ol[@class='products list items product-items']/li[1]//div[@option-label='32']");
+        By firstColorElem = By.xpath("//ol[@class='products list items product-items']/li[1]//div[@option-label='Black']");
+        By firstAddToCartElem = By.xpath("//ol[@class='products list items product-items']/li[1]//button[@title='Add to Cart']");
+        By countNumberItemElem = By.cssSelector("span[class='counter-number']");
 
- //     WebDriver driver = new ChromeDriver();
+        //WebDriver driver = new ChromeDriver();
         WebDriver driver;
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--headless=new");
         driver = new ChromeDriver(chromeOptions);
 
+        int TIME_OUT_IN_SECONDS = 30;
+        WebDriverWait wait;
+        wait= new WebDriverWait(driver, Duration.ofSeconds(TIME_OUT_IN_SECONDS));
+
         driver.get("https://magento.softwaretestingboard.com/");
+
+        driver.manage().window().maximize();
 
         driver.findElement(searchTextBox).sendKeys("pants");
 
@@ -88,6 +96,22 @@ public class magentoTest {
         Actions mouse = new Actions(driver);
 
         mouse.moveToElement(driver.findElement(firstProductElem)).perform();
+
+        driver.findElement(firstSizeElem).click();
+
+        driver.findElement(firstColorElem).click();
+
+        driver.findElement(firstAddToCartElem).click();
+
+        String numberProducts = wait.until(ExpectedConditions.visibilityOfElementLocated(countNumberItemElem)).getText();
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(countNumberItemElem)).click();
+
+        //System.out.println("numberProducts" + numberProducts);
+
+       //Assert.assertEquals(numberProducts,"1");
+
+        driver.quit();
 
     }
 }
