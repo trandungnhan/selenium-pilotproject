@@ -42,11 +42,11 @@ public class magentoTest {
         By notificationElem = By.cssSelector("span[class='base']");
         By searchButton = By.cssSelector("button[title='Search']");
 
-        WebDriver driver = new ChromeDriver();
-//        WebDriver driver;
-//        ChromeOptions chromeOptions = new ChromeOptions();
-//        chromeOptions.addArguments("--headless=new");
-//        driver = new ChromeDriver(chromeOptions);
+       // WebDriver driver = new ChromeDriver();
+        WebDriver driver;
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless=new");
+        driver = new ChromeDriver(chromeOptions);
 
         driver.get("https://magento.softwaretestingboard.com/");
 
