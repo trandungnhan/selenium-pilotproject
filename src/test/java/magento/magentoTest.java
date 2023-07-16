@@ -1,7 +1,6 @@
 package magento;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
@@ -43,11 +42,11 @@ public class magentoTest {
         By notificationElem = By.cssSelector("span[class='base']");
         By searchButton = By.cssSelector("button[title='Search']");
 
-        //WebDriver driver = new ChromeDriver();
-        WebDriver driver;
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless=new");
-        driver = new ChromeDriver(chromeOptions);
+        WebDriver driver = new ChromeDriver();
+//        WebDriver driver;
+//        ChromeOptions chromeOptions = new ChromeOptions();
+//        chromeOptions.addArguments("--headless=new");
+//        driver = new ChromeDriver(chromeOptions);
 
         driver.get("https://magento.softwaretestingboard.com/");
 
@@ -64,20 +63,23 @@ public class magentoTest {
     void verifyHoverAndSelectFirstProduct() throws InterruptedException {
         By searchTextBox = By.cssSelector("input[id='search']");
         By notificationElem = By.cssSelector("span[class='base']");
-        By searchButton = By.cssSelector("button[title='Search']");
         By firstProductElem = By.cssSelector("ol[class='products list items product-items'] li:nth-of-type(1)");
         By firstSizeElem = By.xpath("//ol[@class='products list items product-items']/li[1]//div[@option-label='32']");
         By firstColorElem = By.xpath("//ol[@class='products list items product-items']/li[1]//div[@option-label='Black']");
         By firstAddToCartElem = By.xpath("//ol[@class='products list items product-items']/li[1]//button[@title='Add to Cart']");
-        By countNumberItemElem = By.cssSelector("span[class='counter-number']");
+        By showCartElem = By.xpath("//a[@class='action showcart']");
+        By countNumberItemElem = By.xpath("//span[@class='counter-number'][contains(text(),*)]");
 
         //WebDriver driver = new ChromeDriver();
+
         WebDriver driver;
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--headless=new");
         driver = new ChromeDriver(chromeOptions);
 
-        int TIME_OUT_IN_SECONDS = 30;
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        int TIME_OUT_IN_SECONDS = 50;
         WebDriverWait wait;
         wait= new WebDriverWait(driver, Duration.ofSeconds(TIME_OUT_IN_SECONDS));
 
@@ -85,9 +87,7 @@ public class magentoTest {
 
         driver.manage().window().maximize();
 
-        driver.findElement(searchTextBox).sendKeys("pants");
-
-        driver.findElement(searchButton).click();
+        driver.findElement(searchTextBox).sendKeys("pants" + Keys.ENTER);
 
         String notification = driver.findElement(notificationElem).getText();
 
@@ -95,23 +95,39 @@ public class magentoTest {
 
         Actions mouse = new Actions(driver);
 
+        js.executeScript("arguments[0].scrollIntoView();", driver.findElement(firstProductElem));
+
         mouse.moveToElement(driver.findElement(firstProductElem)).perform();
 
-        driver.findElement(firstSizeElem).click();
+        Thread.sleep(5000);
 
+        driver.findElement(firstSizeElem).click();
         driver.findElement(firstColorElem).click();
 
-        driver.findElement(firstAddToCartElem).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(firstAddToCartElem)).click();
 
-        String numberProducts = wait.until(ExpectedConditions.visibilityOfElementLocated(countNumberItemElem)).getText();
+        js.executeScript("arguments[0].scrollIntoView();", driver.findElement(showCartElem));
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(countNumberItemElem)).click();
+        String numberOfItems = getTotalItem(wait,countNumberItemElem);
 
-        //System.out.println("numberProducts" + numberProducts);
-
-       //Assert.assertEquals(numberProducts,"1");
+        Assert.assertEquals(numberOfItems,"1");
 
         driver.quit();
 
+    }
+
+    public String getTotalItem(WebDriverWait wait, By locator) throws InterruptedException {
+
+        Thread.sleep(10000);
+        String numberOfItems = "0";
+        String collectedValue = wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).getText();
+        if (!collectedValue.equals("0")){
+            numberOfItems = collectedValue;;
+            System.out.println("numberOfItems: " + numberOfItems);
+        }else {
+            System.out.println("Cannot find total items in cart");
+            System.out.println("collectedValue: " + collectedValue);
+        }
+        return numberOfItems;
     }
 }
