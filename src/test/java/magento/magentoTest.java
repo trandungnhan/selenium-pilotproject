@@ -64,9 +64,19 @@ public class magentoTest {
         By searchTextBox = By.cssSelector("input[id='search']");
         By notificationElem = By.cssSelector("span[class='base']");
         By firstProductElem = By.cssSelector("ol[class='products list items product-items'] li:nth-of-type(1)");
+        By secondProductElem = By.cssSelector("ol[class='products list items product-items'] li:nth-of-type(2)");
+
+
         By firstSizeElem = By.xpath("//ol[@class='products list items product-items']/li[1]//div[@option-label='32']");
+        By secondSizeElem = By.xpath("//ol[@class='products list items product-items']/li[2]//div[@option-label='33']");
+
         By firstColorElem = By.xpath("//ol[@class='products list items product-items']/li[1]//div[@option-label='Black']");
+        By secondColorElem = By.xpath("//ol[@class='products list items product-items']/li[2]//div[@option-label='Brown']");
+
+
         By firstAddToCartElem = By.xpath("//ol[@class='products list items product-items']/li[1]//button[@title='Add to Cart']");
+        By secondAddToCartElem = By.xpath("//ol[@class='products list items product-items']/li[2]//button[@title='Add to Cart']");
+
         By showCartElem = By.xpath("//a[@class='action showcart']");
         By countNumberItemElem = By.xpath("//span[@class='counter-number'][contains(text(),*)]");
 
@@ -93,34 +103,28 @@ public class magentoTest {
 
         Assert.assertEquals(notification, "Search results for: 'pants'");
 
-        Actions mouse = new Actions(driver);
+        addProductToCart(driver, wait, js, firstProductElem, firstSizeElem, firstColorElem, firstAddToCartElem );
 
-        js.executeScript("arguments[0].scrollIntoView();", driver.findElement(firstProductElem));
-
-        mouse.moveToElement(driver.findElement(firstProductElem)).perform();
-
-        Thread.sleep(5000);
-
-        driver.findElement(firstSizeElem).click();
-        driver.findElement(firstColorElem).click();
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(firstAddToCartElem)).click();
-
-        js.executeScript("arguments[0].scrollIntoView();", driver.findElement(showCartElem));
-
-        String numberOfItems = getTotalItem(wait,countNumberItemElem);
+        String numberOfItems = getTotalItem(driver, wait, js, showCartElem ,countNumberItemElem);
 
         Assert.assertEquals(numberOfItems,"1");
+
+        addProductToCart(driver, wait, js, secondProductElem, secondSizeElem, secondColorElem, secondAddToCartElem );
+
+        String numberOfItems2 = getTotalItem(driver, wait, js, showCartElem ,countNumberItemElem);
+
+        Assert.assertEquals(numberOfItems2,"2");
 
         driver.quit();
 
     }
 
-    public String getTotalItem(WebDriverWait wait, By locator) throws InterruptedException {
+    public String getTotalItem(WebDriver driver, WebDriverWait wait,JavascriptExecutor js,By cartButton, By cartValue ) throws InterruptedException {
 
+        js.executeScript("arguments[0].scrollIntoView();", driver.findElement(cartButton));
         Thread.sleep(10000);
         String numberOfItems = "0";
-        String collectedValue = wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).getText();
+        String collectedValue = wait.until(ExpectedConditions.visibilityOfElementLocated(cartValue)).getText();
         if (!collectedValue.equals("0")){
             numberOfItems = collectedValue;;
             System.out.println("numberOfItems: " + numberOfItems);
@@ -129,5 +133,22 @@ public class magentoTest {
             System.out.println("collectedValue: " + collectedValue);
         }
         return numberOfItems;
+    }
+
+    public void addProductToCart(WebDriver driver, WebDriverWait wait,JavascriptExecutor js, By product, By size, By color, By addToCartButton) throws InterruptedException {
+
+        Actions mouse = new Actions(driver);
+
+        js.executeScript("arguments[0].scrollIntoView();", driver.findElement(product));
+
+        mouse.moveToElement(driver.findElement(product)).perform();
+
+        Thread.sleep(5000);
+
+        driver.findElement(size).click();
+        driver.findElement(color).click();
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(addToCartButton)).click();
+
     }
 }
