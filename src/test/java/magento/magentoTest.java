@@ -116,7 +116,6 @@ public class magentoTest {
         Assert.assertEquals(numberOfItems2,"2");
 
         driver.quit();
-
     }
 
     public String getTotalItem(WebDriver driver, WebDriverWait wait,JavascriptExecutor js,By cartButton, By cartValue ) throws InterruptedException {
