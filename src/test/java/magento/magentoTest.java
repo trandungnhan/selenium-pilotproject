@@ -191,7 +191,7 @@ public class magentoTest {
 
         driver.findElement(checkoutButton).click();
 
-        Thread.sleep(5000);
+        Thread.sleep(10000);
 
         driver.findElement(viewDetailsProduct1).click();
 
@@ -212,7 +212,7 @@ public class magentoTest {
     public String getTotalItem(WebDriver driver, WebDriverWait wait,JavascriptExecutor js,By cartButton, By cartValue ) throws InterruptedException {
 
         js.executeScript("arguments[0].scrollIntoView();", driver.findElement(cartButton));
-        Thread.sleep(5000);
+        Thread.sleep(10000);
 
         String numberOfItems = "0";
         String collectedValue = wait.until(ExpectedConditions.visibilityOfElementLocated(cartValue)).getText();
