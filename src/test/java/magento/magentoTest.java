@@ -191,6 +191,8 @@ public class magentoTest {
 
         driver.findElement(checkoutButton).click();
 
+        Thread.sleep(5000);
+
         driver.findElement(viewDetailsProduct1).click();
 
         Assert.assertEquals(driver.findElement(nameOfProduct1).getText(),"Caesar Warm-Up Pant");
