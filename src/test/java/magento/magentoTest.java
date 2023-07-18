@@ -202,7 +202,7 @@ public class magentoTest {
         driver.findElement(viewDetailsProduct1).click();
 
         driver.findElement(viewDetailsProduct2).click();
-        Assert.assertEquals(driver.findElement(nameOfProduct2).getText(),"Caesar Warm-Up Pant");
+        Assert.assertEquals(driver.findElement(nameOfProduct2).getText(),"Aether Gym Pant");
         Assert.assertEquals(driver.findElement(sizeOfProduct).getText(),"32");
         Assert.assertEquals(driver.findElement(colorOfProduct).getText(),"Black");
 
