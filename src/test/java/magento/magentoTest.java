@@ -152,12 +152,12 @@ public class magentoTest {
         By sizeOfProduct = By.xpath("//div[@class='product options active']//dd[@class='values'][1]");
         By colorOfProduct = By.xpath("//div[@class='product options active']//dd[@class='values'][2]");
 
-        //WebDriver driver = new ChromeDriver();
+        WebDriver driver = new ChromeDriver();
 
-        WebDriver driver;
+/*        WebDriver driver;
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--headless=new");
-        driver = new ChromeDriver(chromeOptions);
+        driver = new ChromeDriver(chromeOptions);*/
 
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
@@ -203,8 +203,8 @@ public class magentoTest {
 
         driver.findElement(viewDetailsProduct2).click();
         Assert.assertEquals(driver.findElement(nameOfProduct2).getText(),"Aether Gym Pant");
-        Assert.assertEquals(driver.findElement(sizeOfProduct).getText(),"32");
-        Assert.assertEquals(driver.findElement(colorOfProduct).getText(),"Black");
+        Assert.assertEquals(driver.findElement(sizeOfProduct).getText(),"33");
+        Assert.assertEquals(driver.findElement(colorOfProduct).getText(),"Brown");
 
         driver.quit();
     }
