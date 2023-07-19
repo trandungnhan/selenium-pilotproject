@@ -4,10 +4,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -205,6 +202,98 @@ public class magentoTest {
         Assert.assertEquals(driver.findElement(nameOfProduct2).getText(),"Aether Gym Pant");
         Assert.assertEquals(driver.findElement(sizeOfProduct).getText(),"33");
         Assert.assertEquals(driver.findElement(colorOfProduct).getText(),"Brown");
+
+        driver.quit();
+    }
+
+    @Test
+    void verifyOrderTotalPrice() throws InterruptedException {
+        By searchTextBox = By.cssSelector("input[id='search']");
+        By notificationElem = By.cssSelector("span[class='base']");
+        By firstProductElem = By.cssSelector("ol[class='products list items product-items'] li:nth-of-type(1)");
+        By secondProductElem = By.cssSelector("ol[class='products list items product-items'] li:nth-of-type(2)");
+
+
+        By firstSizeElem = By.xpath("//ol[@class='products list items product-items']/li[1]//div[@option-label='32']");
+        By secondSizeElem = By.xpath("//ol[@class='products list items product-items']/li[2]//div[@option-label='33']");
+
+        By firstColorElem = By.xpath("//ol[@class='products list items product-items']/li[1]//div[@option-label='Black']");
+        By secondColorElem = By.xpath("//ol[@class='products list items product-items']/li[2]//div[@option-label='Brown']");
+
+
+        By firstAddToCartElem = By.xpath("//ol[@class='products list items product-items']/li[1]//button[@title='Add to Cart']");
+        By secondAddToCartElem = By.xpath("//ol[@class='products list items product-items']/li[2]//button[@title='Add to Cart']");
+
+        By showCartElem = By.xpath("//a[@class='action showcart']");
+        By checkoutButton = By.cssSelector("button[id='top-cart-btn-checkout']");
+        By emailTextBox = By.xpath("//div[@class='field required']//input[@id='customer-email']");
+        By firstnameTextBox = By.xpath("//input[@name='firstname']");
+        By lastnameTextBox = By.xpath("//input[@name='lastname']");
+        By companyTextBox = By.xpath("//input[@name='company']");
+        By streetAddressTextBox = By.xpath("//input[@name='street[0]']");
+        By cityTextBox = By.xpath("//input[@name='city']");
+        By postcodeTextBox = By.xpath("//input[@name='postcode']");
+        By phoneNumberTextBox = By.xpath("//input[@name='telephone']");
+        By regionSelection = By.xpath("//select[@name='region_id']");
+        By countrySelection = By.xpath("//select[@name='country_id']");
+        By fixedMethodRadio = By.xpath("//input[@value='flatrate_flatrate']");
+        By nextButton = By.xpath("//span[contains(text(),'Next')]");
+        By totalPriceElem = By.xpath("//tr[@class='totals sub']//span[@class='price']");
+
+        //WebDriver driver = new ChromeDriver();
+
+        WebDriver driver;
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless=new");
+        driver = new ChromeDriver(chromeOptions);
+
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        int TIME_OUT_IN_SECONDS = 50;
+        WebDriverWait wait;
+        wait= new WebDriverWait(driver, Duration.ofSeconds(TIME_OUT_IN_SECONDS));
+
+        driver.get("https://magento.softwaretestingboard.com/");
+
+        driver.manage().window().maximize();
+
+        driver.findElement(searchTextBox).sendKeys("pants" + Keys.ENTER);
+
+        String notification = driver.findElement(notificationElem).getText();
+
+        Assert.assertEquals(notification, "Search results for: 'pants'");
+
+        addProductToCart(driver, wait, js, firstProductElem, firstSizeElem, firstColorElem, firstAddToCartElem );
+
+        addProductToCart(driver, wait, js, secondProductElem, secondSizeElem, secondColorElem, secondAddToCartElem );
+
+        driver.findElement(showCartElem).click();
+
+        driver.findElement(checkoutButton).click();
+
+        Thread.sleep(20000);
+
+        driver.findElement(emailTextBox).sendKeys("test@gmail.com");
+        driver.findElement(firstnameTextBox).sendKeys("Tuan");
+        driver.findElement(lastnameTextBox).sendKeys("Nguyen");
+        driver.findElement(companyTextBox).sendKeys("On1");
+        driver.findElement(streetAddressTextBox).sendKeys("26/2 Pham Van Chieu");
+        driver.findElement(cityTextBox).sendKeys("Ho Chi Minh");
+        driver.findElement(postcodeTextBox).sendKeys("9999");
+        driver.findElement(phoneNumberTextBox).sendKeys("0909090909");
+
+        Select regionList = new Select(driver.findElement(regionSelection));
+        regionList.selectByVisibleText("Alaska");
+
+        Select countryList = new Select(driver.findElement(countrySelection));
+        countryList.selectByVisibleText("United States");
+
+        driver.findElement(fixedMethodRadio).click();
+        driver.findElement(nextButton).click();
+
+        String totalPrice = wait.until(ExpectedConditions.visibilityOfElementLocated(totalPriceElem)).getText();
+
+        Assert.assertEquals(totalPrice,"$109.00");
 
         driver.quit();
     }
