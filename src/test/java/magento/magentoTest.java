@@ -1,5 +1,6 @@
 package magento;
 
+import Common.Browser;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -7,35 +8,29 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pages.MagentoPage;
 
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
+import static pages.MagentoPage.*;
 
-public class magentoTest {
+public class magentoTest  {
+
+    MagentoPage magentoPage;
+    Browser browser;
 
     @Test
     void verifyWelcomeMegs() {
-        By welcomeMegElem = By.xpath("//div[@class='panel header']/*//span[@class='not-logged-in']");
 
-        int TIME_OUT_IN_SECONDS = 30;
-        //WebDriver driver = new ChromeDriver();
-        WebDriver driver;
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless=new");
-        driver = new ChromeDriver(chromeOptions);
+        browser.launch();
 
-        WebDriverWait wait;
-        wait= new WebDriverWait(driver, Duration.ofSeconds(TIME_OUT_IN_SECONDS));
+        browser.open("https://magento.softwaretestingboard.com/");
 
-        driver.get("https://magento.softwaretestingboard.com/");
-
-        String welcomeMeg = wait.until(ExpectedConditions.visibilityOfElementLocated(welcomeMegElem)).getText();
+        String welcomeMeg = browser.getMessage(welcomeMegElem);
 
         Assert.assertEquals(welcomeMeg,"Default welcome msg!");
 
-        driver.quit();
+        browser.quit();
     }
 
     @Test
@@ -62,7 +57,7 @@ public class magentoTest {
     }
 
     @Test
-    void verifyHoverAndSelectFirstProduct() throws InterruptedException {
+    void verifyNumberOfProduct() throws InterruptedException {
         By searchTextBox = By.cssSelector("input[id='search']");
         By notificationElem = By.cssSelector("span[class='base']");
         By firstProductElem = By.cssSelector("ol[class='products list items product-items'] li:nth-of-type(1)");
