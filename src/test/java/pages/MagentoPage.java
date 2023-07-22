@@ -12,29 +12,18 @@ public class MagentoPage {
     By searchTextBox = By.cssSelector("input[id='search']");
     public static By notificationElem = By.cssSelector("span[class='base']");
     By searchButton = By.cssSelector("button[title='Search']");
-    By firstProductElem = By.cssSelector("ol[class='products list items product-items'] li:nth-of-type(1)");
-    By secondProductElem = By.cssSelector("ol[class='products list items product-items'] li:nth-of-type(2)");
-
-
-    By firstSizeElem = By.xpath("//ol[@class='products list items product-items']/li[1]//div[@option-label='32']");
-    By secondSizeElem = By.xpath("//ol[@class='products list items product-items']/li[2]//div[@option-label='33']");
-
-    By firstColorElem = By.xpath("//ol[@class='products list items product-items']/li[1]//div[@option-label='Black']");
-    By secondColorElem = By.xpath("//ol[@class='products list items product-items']/li[2]//div[@option-label='Brown']");
-
-
-    By firstAddToCartElem = By.xpath("//ol[@class='products list items product-items']/li[1]//button[@title='Add to Cart']");
-    By secondAddToCartElem = By.xpath("//ol[@class='products list items product-items']/li[2]//button[@title='Add to Cart']");
+    String productElem = "ol[class='products list items product-items'] li:nth-of-type(%d)";
+    String sizeElem = "//ol[@class='products list items product-items']/li[%d]//div[@option-label='%d']";
+    String colorElem = "//ol[@class='products list items product-items']/li[%d]//div[@option-label='%s']";
+    String addToCartButton = "//ol[@class='products list items product-items']/li[%d]//button[@title='Add to Cart']";
 
     public static By showCartElem = By.xpath("//a[@class='action showcart']");
     By countNumberItemElem = By.xpath("//span[@class='counter-number'][contains(text(),*)]");
 
     public static By checkoutButton = By.cssSelector("button[id='top-cart-btn-checkout']");
-    public static By nameOfProduct1 = By.xpath("//ol[@class='minicart-items']//li[1]//strong[@class='product-item-name']");
-    public static By nameOfProduct2 = By.xpath("//ol[@class='minicart-items']//li[2]//strong[@class='product-item-name']");
+    public static String nameOfProduct = "//ol[@class='minicart-items']//li[%d]//strong[@class='product-item-name']";
+    public static String viewDetailsProduct = "//ol[@class='minicart-items']//li[%d]//span[@class='toggle']";
 
-    public static By viewDetailsProduct1 = By.xpath("//ol[@class='minicart-items']//li[1]//span[@class='toggle']");
-    public static By viewDetailsProduct2 = By.xpath("//ol[@class='minicart-items']//li[2]//span[@class='toggle']");
     public static By sizeOfProduct = By.xpath("//div[@class='product options active']//dd[@class='values'][1]");
     public static By colorOfProduct = By.xpath("//div[@class='product options active']//dd[@class='values'][2]");
 
@@ -68,26 +57,18 @@ public class MagentoPage {
         //click(searchButton);
     }
 
-    public void addProductToCart1() {
-        scrollIntoView(firstProductElem);
-        hover(firstProductElem);
-        click(firstSizeElem);
-        click(firstColorElem);
-        click(firstAddToCartElem);
+    public void addProductToCart(int index, int size, String color) {
+        scrollIntoView(By.cssSelector(String.format(productElem,index)));
+        hover(By.cssSelector(String.format(productElem,index)));
+        System.out.println(String.format(sizeElem,index,size));
+        click(By.xpath(String.format(sizeElem,index,size)));
+        click(By.xpath(String.format(colorElem,index,color)));
+        click(By.xpath(String.format(addToCartButton,index)));
     }
 
-    public void addProductToCart2() {
-        scrollIntoView(secondProductElem);
-        hover(secondProductElem);
-        click(secondSizeElem);
-        click(secondColorElem);
-        click(secondAddToCartElem);
-    }
-
-    public String getTotalItem() throws InterruptedException {
+    public String getTotalItem(){
 
         scrollIntoView(showCartElem);
-        //Thread.sleep(10000);
         if (!waitCounterQtyLoading()){
             System.out.println("Counter quantity loading is not completed");
         }
@@ -96,11 +77,8 @@ public class MagentoPage {
         String collectedValue = getMessage(countNumberItemElem);
         if (!collectedValue.equals("0")) {
             numberOfItems = collectedValue;
-            ;
-            System.out.println("numberOfItems: " + numberOfItems);
         } else {
             System.out.println("Cannot find total items in cart");
-            System.out.println("collectedValue: " + collectedValue);
         }
         return numberOfItems;
     }
@@ -147,4 +125,42 @@ public class MagentoPage {
             System.out.println("Checkout page isn't loaded completely");
         }
     }
+
+    public void selectFixedMethod(){
+        click(fixedMethodRadio);
+        click(nextButton);
+    }
+
+    public String getTotalPrice(){
+        return getMessage(totalPriceElem);
+    }
+
+    public String getProductName(int index){
+        return getMessage(By.xpath(String.format(nameOfProduct,index)));
+    }
+
+    public String getProductSize(){
+        return getMessage(sizeOfProduct);
+    }
+
+    public String getProductColor(){
+        return getMessage(colorOfProduct);
+    }
+
+    public String getWelcomeMeg(){
+        return getMessage(welcomeMegElem);
+    }
+
+    public String getNotification(){
+        return getMessage(notificationElem);
+    }
+
+    public void selectViewDetailProduct(int index){
+        click(By.xpath(String.format(viewDetailsProduct,index)));
+    }
+
+    public void unselectViewDetailProduct(int index){
+        click(By.xpath(String.format(viewDetailsProduct,index)));
+    }
+
 }

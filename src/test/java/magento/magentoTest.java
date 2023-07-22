@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 import pages.MagentoPage;
 
 import static pages.MagentoPage.*;
-import static pages.MagentoPage.checkoutButton;
 
 public class magentoTest  {
 
@@ -29,18 +28,13 @@ public class magentoTest  {
 
     @Test
     void verifyWelcomeMegs() {
-
-        String welcomeMeg = browser.getMessage(welcomeMegElem);
-        Assert.assertEquals(welcomeMeg,"Default welcome msg!");
+        Assert.assertEquals(magentoPage.getWelcomeMeg(),"Default welcome msg!");
     }
 
     @Test
     void verifySearchPants() {
-
         magentoPage.searchPants();
-
-        String notification = browser.getMessage(notificationElem);
-        Assert.assertEquals(notification, "Search results for: 'pants'");
+        Assert.assertEquals(magentoPage.getNotification(), "Search results for: 'pants'");
     }
 
     @Test
@@ -48,13 +42,11 @@ public class magentoTest  {
 
         magentoPage.searchPants();
 
-        magentoPage.addProductToCart1();
-        String numberOfItems = magentoPage.getTotalItem();
-        Assert.assertEquals(numberOfItems,"1");
+        magentoPage.addProductToCart(1,32,"Black");
+        Assert.assertEquals(magentoPage.getTotalItem(),"1");
 
-        magentoPage.addProductToCart2();
-        String numberOfItems2 = magentoPage.getTotalItem();
-        Assert.assertEquals(numberOfItems2,"2");
+        magentoPage.addProductToCart(2,33,"Brown");
+        Assert.assertEquals(magentoPage.getTotalItem(),"2");
     }
 
     @Test
@@ -62,26 +54,26 @@ public class magentoTest  {
 
         magentoPage.searchPants();
 
-        magentoPage.addProductToCart1();
-        String numberOfItems = magentoPage.getTotalItem();
-        Assert.assertEquals(numberOfItems,"1");
+        magentoPage.addProductToCart(1,32,"Black");
+        Assert.assertEquals(magentoPage.getTotalItem(),"1");
 
-        magentoPage.addProductToCart2();
-        String numberOfItems2 = magentoPage.getTotalItem();
-        Assert.assertEquals(numberOfItems2,"2");
+        magentoPage.addProductToCart(2,33,"Brown");
+        Assert.assertEquals(magentoPage.getTotalItem(),"2");
 
         magentoPage.navigateToCheckoutPage();
+        magentoPage.selectViewDetailProduct(1);
 
-        browser.click(viewDetailsProduct1);
-        Assert.assertEquals(browser.getMessage(nameOfProduct1),"Caesar Warm-Up Pant");
-        Assert.assertEquals(browser.getMessage(sizeOfProduct),"32");
-        Assert.assertEquals(browser.getMessage(colorOfProduct),"Black");
-        browser.click(viewDetailsProduct1);
+        Assert.assertEquals(magentoPage.getProductName(1),"Caesar Warm-Up Pant");
+        Assert.assertEquals(magentoPage.getProductSize(),"32");
+        Assert.assertEquals(magentoPage.getProductColor(),"Black");
+        magentoPage.selectViewDetailProduct(1);
 
-        browser.click(viewDetailsProduct2);
-        Assert.assertEquals(browser.getMessage(nameOfProduct2),"Aether Gym Pant");
-        Assert.assertEquals(browser.getMessage(sizeOfProduct),"33");
-        Assert.assertEquals(browser.getMessage(colorOfProduct),"Brown");
+        Thread.sleep(5000);
+        magentoPage.selectViewDetailProduct(2);
+        Assert.assertEquals(magentoPage.getProductName(2),"Aether Gym Pant");
+        Assert.assertEquals(magentoPage.getProductSize(),"33");
+        Assert.assertEquals(magentoPage.getProductColor(),"Brown");
+        magentoPage.unselectViewDetailProduct(2);
 
     }
 
@@ -90,13 +82,11 @@ public class magentoTest  {
 
         magentoPage.searchPants();
 
-        magentoPage.addProductToCart1();
-        String numberOfItems = magentoPage.getTotalItem();
-        Assert.assertEquals(numberOfItems,"1");
+        magentoPage.addProductToCart(1,32,"Black");
+        Assert.assertEquals(magentoPage.getTotalItem(),"1");
 
-        magentoPage.addProductToCart2();
-        String numberOfItems2 = magentoPage.getTotalItem();
-        Assert.assertEquals(numberOfItems2,"2");
+        magentoPage.addProductToCart(2,33,"Brown");
+        Assert.assertEquals(magentoPage.getTotalItem(),"2");
 
         magentoPage.navigateToCheckoutPage();
 
@@ -107,11 +97,9 @@ public class magentoTest  {
         magentoPage.selectRegion("Alaska");
         magentoPage.selectCountry("United States");
 
-        browser.click(fixedMethodRadio);
-        browser.click(nextButton);
+        magentoPage.selectFixedMethod();
 
-        String totalPrice = browser.getMessage(totalPriceElem);
-        Assert.assertEquals(totalPrice,"$109.00");
+        Assert.assertEquals(magentoPage.getTotalPrice(),"$109.00");
 
     }
 }
