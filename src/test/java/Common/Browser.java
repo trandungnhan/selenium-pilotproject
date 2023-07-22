@@ -73,4 +73,8 @@ public class Browser {
         return new Select(driver.findElement(element));
     }
 
+    public static Boolean waitLoading(By element){
+        return wait.until(ExpectedConditions.invisibilityOfElementLocated(element));
+    }
+
 }

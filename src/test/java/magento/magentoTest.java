@@ -2,6 +2,7 @@ package magento;
 
 import Common.Browser;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pages.MagentoPage;
@@ -21,12 +22,16 @@ public class magentoTest  {
         magentoPage.open();
     }
 
+    @AfterClass
+    void closeBrowser(){
+        browser.quit();
+    }
+
     @Test
     void verifyWelcomeMegs() {
 
         String welcomeMeg = browser.getMessage(welcomeMegElem);
         Assert.assertEquals(welcomeMeg,"Default welcome msg!");
-        browser.quit();
     }
 
     @Test
@@ -36,7 +41,6 @@ public class magentoTest  {
 
         String notification = browser.getMessage(notificationElem);
         Assert.assertEquals(notification, "Search results for: 'pants'");
-        browser.quit();
     }
 
     @Test
@@ -51,8 +55,6 @@ public class magentoTest  {
         magentoPage.addProductToCart2();
         String numberOfItems2 = magentoPage.getTotalItem();
         Assert.assertEquals(numberOfItems2,"2");
-
-        browser.quit();
     }
 
     @Test
@@ -67,11 +69,9 @@ public class magentoTest  {
         magentoPage.addProductToCart2();
         String numberOfItems2 = magentoPage.getTotalItem();
         Assert.assertEquals(numberOfItems2,"2");
-        browser.click(showCartElem);
-        browser.click(checkoutButton);
 
-        //Todo : waiting for loading
-        Thread.sleep(10000);
+        magentoPage.navigateToCheckoutPage();
+
         browser.click(viewDetailsProduct1);
         Assert.assertEquals(browser.getMessage(nameOfProduct1),"Caesar Warm-Up Pant");
         Assert.assertEquals(browser.getMessage(sizeOfProduct),"32");
@@ -83,7 +83,6 @@ public class magentoTest  {
         Assert.assertEquals(browser.getMessage(sizeOfProduct),"33");
         Assert.assertEquals(browser.getMessage(colorOfProduct),"Brown");
 
-        browser.quit();
     }
 
     @Test
@@ -98,19 +97,12 @@ public class magentoTest  {
         magentoPage.addProductToCart2();
         String numberOfItems2 = magentoPage.getTotalItem();
         Assert.assertEquals(numberOfItems2,"2");
-        browser.click(showCartElem);
-        browser.click(checkoutButton);
 
-        //Todo: Waiting for loading
-        Thread.sleep(20000);
-        browser.sendText(emailTextBox,"test@gmail.com");
-        browser.sendText(firstnameTextBox,"Tuan");
-        browser.sendText(lastnameTextBox,"Nguyen");
-        browser.sendText(companyTextBox,"On1");
-        browser.sendText(streetAddressTextBox,"26/2 Pham Van Chieu");
-        browser.sendText(cityTextBox,"Ho Chi Minh");
-        browser.sendText(postcodeTextBox,"9999");
-        browser.sendText(phoneNumberTextBox,"0909090909");
+        magentoPage.navigateToCheckoutPage();
+
+        magentoPage.fillShippingAddressInfo("test@gmail.com","Tuan", "Nguyen",
+                "On1", "26/2 Pham Van Chieu","Ho Chi Minh","9999",
+                "0909090909", "Alaska","United States");
 
         magentoPage.selectRegion("Alaska");
         magentoPage.selectCountry("United States");
@@ -121,11 +113,5 @@ public class magentoTest  {
         String totalPrice = browser.getMessage(totalPriceElem);
         Assert.assertEquals(totalPrice,"$109.00");
 
-        browser.quit();
     }
-
-
-
-
-
 }

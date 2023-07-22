@@ -1,7 +1,6 @@
 package pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static Common.Browser.*;
@@ -53,6 +52,9 @@ public class MagentoPage {
     public static By nextButton = By.xpath("//span[contains(text(),'Next')]");
     public static By totalPriceElem = By.xpath("//tr[@class='totals sub']//span[@class='price']");
 
+    By counterQtyLoadingElem = By.xpath("//span[@class='counter qty _block-content-loading']");
+    By checkoutLoaderElem = By.xpath("//div[@class='loading-mask']");
+
     public MagentoPage() {
         getDriver();
         getWait();
@@ -85,7 +87,11 @@ public class MagentoPage {
     public String getTotalItem() throws InterruptedException {
 
         scrollIntoView(showCartElem);
-        Thread.sleep(10000);
+        //Thread.sleep(10000);
+        if (!waitCounterQtyLoading()){
+            System.out.println("Counter quantity loading is not completed");
+        }
+
         String numberOfItems = "0";
         String collectedValue = getMessage(countNumberItemElem);
         if (!collectedValue.equals("0")) {
@@ -99,6 +105,21 @@ public class MagentoPage {
         return numberOfItems;
     }
 
+    public void fillShippingAddressInfo(String email, String firstname, String lastname,
+                                        String company, String street, String city, String postcode,
+                                        String phoneNumber, String region, String country){
+        sendText(emailTextBox,email);
+        sendText(firstnameTextBox,firstname);
+        sendText(lastnameTextBox,lastname);
+        sendText(companyTextBox,company);
+        sendText(streetAddressTextBox,street);
+        sendText(cityTextBox,city);
+        sendText(postcodeTextBox,postcode);
+        sendText(phoneNumberTextBox,phoneNumber);
+        selectRegion(region);
+        selectCountry(country);
+    }
+
     public void selectRegion(String region){
         selectList(regionSelection).selectByVisibleText(region);
     }
@@ -109,5 +130,21 @@ public class MagentoPage {
 
     public void open(){
         visit("https://magento.softwaretestingboard.com/");
+    }
+
+    public Boolean waitCounterQtyLoading(){
+        return waitLoading(counterQtyLoadingElem);
+    }
+
+    public Boolean waitCheckoutLoading(){
+        return waitLoading(checkoutLoaderElem);
+    }
+
+    public void navigateToCheckoutPage(){
+        click(showCartElem);
+        click(checkoutButton);
+        if(!waitCheckoutLoading()){
+            System.out.println("Checkout page isn't loaded completely");
+        }
     }
 }
