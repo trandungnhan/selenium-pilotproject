@@ -19,10 +19,10 @@ public class Browser {
     public static int TIME_OUT_IN_SECONDS = 50;
 
     public static void launch(){
-        driver = new ChromeDriver();
-/*        ChromeOptions chromeOptions = new ChromeOptions();
+        //driver = new ChromeDriver();
+        ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--headless=new");
-        driver = new ChromeDriver(chromeOptions);*/
+        driver = new ChromeDriver(chromeOptions);
         wait = new WebDriverWait(driver, Duration.ofSeconds(TIME_OUT_IN_SECONDS));
     }
 

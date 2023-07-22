@@ -7,8 +7,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pages.MagentoPage;
 
-import static pages.MagentoPage.*;
-
 public class magentoTest  {
 
     Browser browser;
@@ -38,7 +36,7 @@ public class magentoTest  {
     }
 
     @Test
-    void verifyNumberOfProduct() throws InterruptedException {
+    void verifyNumberOfProduct(){
 
         magentoPage.searchPants();
 
@@ -50,7 +48,7 @@ public class magentoTest  {
     }
 
     @Test
-    void verifyInformationOfProduct() throws InterruptedException {
+    void verifyInformationOfProduct() {
 
         magentoPage.searchPants();
 
@@ -68,7 +66,6 @@ public class magentoTest  {
         Assert.assertEquals(magentoPage.getProductColor(),"Black");
         magentoPage.selectViewDetailProduct(1);
 
-        Thread.sleep(5000);
         magentoPage.selectViewDetailProduct(2);
         Assert.assertEquals(magentoPage.getProductName(2),"Aether Gym Pant");
         Assert.assertEquals(magentoPage.getProductSize(),"33");
@@ -78,7 +75,7 @@ public class magentoTest  {
     }
 
     @Test
-    void verifyOrderTotalPrice() throws InterruptedException {
+    void verifyOrderTotalPrice(){
 
         magentoPage.searchPants();
 
