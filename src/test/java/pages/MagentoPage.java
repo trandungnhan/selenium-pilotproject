@@ -51,16 +51,13 @@ public class MagentoPage {
 
     public void searchPants(){
         maxWindows();
-        //sendText(searchTextBox,"pants"+ Keys.ENTER);
         sendText(searchTextBox,"pants");
         wait.until(ExpectedConditions.visibilityOfElementLocated(searchButton)).click();
-        //click(searchButton);
     }
 
     public void addProductToCart(int index, int size, String color) {
         scrollIntoView(By.cssSelector(String.format(productElem,index)));
         hover(By.cssSelector(String.format(productElem,index)));
-        System.out.println(String.format(sizeElem,index,size));
         click(By.xpath(String.format(sizeElem,index,size)));
         click(By.xpath(String.format(colorElem,index,color)));
         click(By.xpath(String.format(addToCartButton,index)));

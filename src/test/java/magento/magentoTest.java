@@ -2,9 +2,7 @@ package magento;
 
 import Common.Browser;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import pages.MagentoPage;
 
 public class magentoTest  {
@@ -12,30 +10,30 @@ public class magentoTest  {
     Browser browser;
     MagentoPage magentoPage;
 
-    @BeforeClass
+    @BeforeMethod
     void openBrowser() {
         browser.launch();
         magentoPage = new MagentoPage();
         magentoPage.open();
     }
 
-    @AfterClass
+    @AfterMethod
     void closeBrowser(){
         browser.quit();
     }
 
-    @Test
+    @Test(priority = 1)
     void verifyWelcomeMegs() {
         Assert.assertEquals(magentoPage.getWelcomeMeg(),"Default welcome msg!");
     }
 
-    @Test
+    @Test(priority = 2)
     void verifySearchPants() {
         magentoPage.searchPants();
         Assert.assertEquals(magentoPage.getNotification(), "Search results for: 'pants'");
     }
 
-    @Test
+    @Test(priority = 3)
     void verifyNumberOfProduct(){
 
         magentoPage.searchPants();
@@ -47,7 +45,7 @@ public class magentoTest  {
         Assert.assertEquals(magentoPage.getTotalItem(),"2");
     }
 
-    @Test
+    @Test(priority = 4)
     void verifyInformationOfProduct() {
 
         magentoPage.searchPants();
@@ -74,7 +72,7 @@ public class magentoTest  {
 
     }
 
-    @Test
+    @Test(priority = 5)
     void verifyOrderTotalPrice(){
 
         magentoPage.searchPants();
