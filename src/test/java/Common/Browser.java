@@ -35,8 +35,7 @@ public class Browser {
     }
 
     public static void click(By element) {
-        //driver.findElement(element).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(element)).click();
+        wait.until(ExpectedConditions.elementToBeClickable(element)).click();
     }
 
     public static void maxWindows(){

@@ -52,7 +52,7 @@ public class MagentoPage {
     public void searchPants(){
         maxWindows();
         sendText(searchTextBox,"pants");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(searchButton)).click();
+        click(searchButton);
     }
 
     public void addProductToCart(int index, int size, String color) {
