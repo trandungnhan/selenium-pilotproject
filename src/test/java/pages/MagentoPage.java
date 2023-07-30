@@ -63,12 +63,15 @@ public class MagentoPage {
         click(By.xpath(String.format(addToCartButton,index)));
     }
 
+    //Todo: need to update getTotalItem to remove check collectedValue
+    //Todo: need to update to remove check !waitCounterQtyLoading()
     public String getTotalItem(){
 
         scrollIntoView(showCartElem);
-        if (!waitCounterQtyLoading()){
-            System.out.println("Counter quantity loading is not completed");
-        }
+///*        if (!waitCounterQtyLoading()){
+//            System.out.println("Counter quantity loading is not completed");
+//        }*/
+        waitLoading(counterQtyLoadingElem);
 
         String numberOfItems = "0";
         String collectedValue = getMessage(countNumberItemElem);
@@ -115,12 +118,14 @@ public class MagentoPage {
         return waitLoading(checkoutLoaderElem);
     }
 
+    //Todo: need to update to remove check !waitCheckoutLoading()
     public void navigateToCheckoutPage(){
         click(showCartElem);
         click(checkoutButton);
-        if(!waitCheckoutLoading()){
+/*        if(!waitCheckoutLoading()){
             System.out.println("Checkout page isn't loaded completely");
-        }
+        }*/
+        waitLoading(checkoutLoaderElem);
     }
 
     public void selectFixedMethod(){

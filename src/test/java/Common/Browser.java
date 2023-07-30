@@ -1,8 +1,7 @@
 package Common;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
@@ -10,6 +9,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
 
 public class Browser {
@@ -18,11 +19,14 @@ public class Browser {
     public static WebDriverWait wait;
     public static int TIME_OUT_IN_SECONDS = 50;
 
-    public static void launch(){
-//        driver = new ChromeDriver();
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless=new");
-        driver = new ChromeDriver(chromeOptions);
+    public static void launch(Boolean headless){
+        if (headless){
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.addArguments("--headless=new");
+            driver = new ChromeDriver(chromeOptions);
+        } else{
+            driver = new ChromeDriver();
+        }
         wait = new WebDriverWait(driver, Duration.ofSeconds(TIME_OUT_IN_SECONDS));
     }
 
@@ -74,6 +78,17 @@ public class Browser {
 
     public static Boolean waitLoading(By element){
         return wait.until(ExpectedConditions.invisibilityOfElementLocated(element));
+    }
+
+    public static void captureScreenShot(String fileName) {
+        TakesScreenshot scrShot = ((TakesScreenshot) Browser.getDriver());
+        File SrcFile = scrShot.getScreenshotAs(OutputType.FILE);
+        File DestFile = new File(String.format("target/%s.png", fileName));
+        try {
+            FileUtils.copyFile(SrcFile, DestFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

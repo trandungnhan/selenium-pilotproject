@@ -2,6 +2,7 @@ package magento;
 
 import Common.Browser;
 import org.testng.Assert;
+import org.testng.ITestResult;
 import org.testng.annotations.*;
 import pages.MagentoPage;
 
@@ -12,13 +13,16 @@ public class magentoTest  {
 
     @BeforeMethod
     void openBrowser() {
-        browser.launch();
+        browser.launch(true);
         magentoPage = new MagentoPage();
         magentoPage.open();
     }
 
     @AfterMethod
-    void closeBrowser(){
+    void captureResultAndCloseBrowser(ITestResult testResult) {
+        if (!testResult.isSuccess()) {
+            Browser.captureScreenShot(testResult.getMethod().getMethodName());
+        }
         browser.quit();
     }
 
