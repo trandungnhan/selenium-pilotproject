@@ -76,8 +76,9 @@ public class Browser {
         return new Select(driver.findElement(element));
     }
 
-    public static Boolean waitLoading(By element){
-        return wait.until(ExpectedConditions.invisibilityOfElementLocated(element));
+    //Todo: need to handle waitLoading() method
+    public static void waitLoading(By element){
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(element));
     }
 
     public static void captureScreenShot(String fileName) {

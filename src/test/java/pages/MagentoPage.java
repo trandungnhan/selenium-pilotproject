@@ -1,8 +1,6 @@
 package pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-
 import static Common.Browser.*;
 import static Common.Browser.scrollIntoView;
 
@@ -43,6 +41,8 @@ public class MagentoPage {
 
     By counterQtyLoadingElem = By.xpath("//span[@class='counter qty _block-content-loading']");
     By checkoutLoaderElem = By.xpath("//div[@class='loading-mask']");
+    By disableSearchButton = By.xpath("//button[@disabled]");
+    By inactiveItemsInCart = By.xpath("//div[@class='block items-in-cart']");
 
     public MagentoPage() {
         getDriver();
@@ -52,6 +52,7 @@ public class MagentoPage {
     public void searchPants(){
         maxWindows();
         sendText(searchTextBox,"pants");
+        waitLoading(disableSearchButton);
         click(searchButton);
     }
 
@@ -68,19 +69,8 @@ public class MagentoPage {
     public String getTotalItem(){
 
         scrollIntoView(showCartElem);
-///*        if (!waitCounterQtyLoading()){
-//            System.out.println("Counter quantity loading is not completed");
-//        }*/
         waitLoading(counterQtyLoadingElem);
-
-        String numberOfItems = "0";
-        String collectedValue = getMessage(countNumberItemElem);
-        if (!collectedValue.equals("0")) {
-            numberOfItems = collectedValue;
-        } else {
-            System.out.println("Cannot find total items in cart");
-        }
-        return numberOfItems;
+        return getMessage(countNumberItemElem);
     }
 
     public void fillShippingAddressInfo(String email, String firstname, String lastname,
@@ -110,21 +100,10 @@ public class MagentoPage {
         visit("https://magento.softwaretestingboard.com/");
     }
 
-    public Boolean waitCounterQtyLoading(){
-        return waitLoading(counterQtyLoadingElem);
-    }
-
-    public Boolean waitCheckoutLoading(){
-        return waitLoading(checkoutLoaderElem);
-    }
-
     //Todo: need to update to remove check !waitCheckoutLoading()
     public void navigateToCheckoutPage(){
         click(showCartElem);
         click(checkoutButton);
-/*        if(!waitCheckoutLoading()){
-            System.out.println("Checkout page isn't loaded completely");
-        }*/
         waitLoading(checkoutLoaderElem);
     }
 
@@ -158,6 +137,7 @@ public class MagentoPage {
     }
 
     public void selectViewDetailProduct(int index){
+        waitLoading(inactiveItemsInCart);
         click(By.xpath(String.format(viewDetailsProduct,index)));
     }
 
