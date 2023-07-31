@@ -19,7 +19,7 @@ public class magentoTest  {
 
     @BeforeMethod
     void openBrowser() {
-        browser.launch(false);
+        browser.launch(true);
         magentoPage = new MagentoPage();
         magentoPage.open();
     }
@@ -28,10 +28,8 @@ public class magentoTest  {
     void captureResultAndCloseBrowser(ITestResult testResult) {
         if (!testResult.isSuccess()) {
             Browser.captureScreenShot(testResult.getMethod().getMethodName());
-        } else{
-            browser.quit();
         }
-        //browser.quit();
+        browser.quit();
     }
 
     @Test(priority = 1)
