@@ -6,6 +6,12 @@ import org.testng.ITestResult;
 import org.testng.annotations.*;
 import pages.MagentoPage;
 
+/*
+Issue 1: Sometime search is not enable after text is inputted in search text box.
+Failed: searchPants()
+
+* */
+
 public class magentoTest  {
 
     Browser browser;
@@ -13,7 +19,7 @@ public class magentoTest  {
 
     @BeforeMethod
     void openBrowser() {
-        browser.launch(true);
+        browser.launch(false);
         magentoPage = new MagentoPage();
         magentoPage.open();
     }
@@ -22,8 +28,10 @@ public class magentoTest  {
     void captureResultAndCloseBrowser(ITestResult testResult) {
         if (!testResult.isSuccess()) {
             Browser.captureScreenShot(testResult.getMethod().getMethodName());
+        } else{
+            browser.quit();
         }
-        browser.quit();
+        //browser.quit();
     }
 
     @Test(priority = 1)

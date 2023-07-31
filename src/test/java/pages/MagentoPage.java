@@ -1,6 +1,7 @@
 package pages;
 
 import org.openqa.selenium.By;
+
 import static Common.Browser.*;
 import static Common.Browser.scrollIntoView;
 
@@ -64,13 +65,18 @@ public class MagentoPage {
         click(By.xpath(String.format(addToCartButton,index)));
     }
 
-    //Todo: need to update getTotalItem to remove check collectedValue
-    //Todo: need to update to remove check !waitCounterQtyLoading()
     public String getTotalItem(){
 
         scrollIntoView(showCartElem);
         waitLoading(counterQtyLoadingElem);
         return getMessage(countNumberItemElem);
+        /*  String totalItem = null;
+        if (waitLoading(counterQtyLoadingElem)){
+            totalItem = getMessage(countNumberItemElem);
+        }else{
+            System.out.println("disableSearchButton is not disappeared");
+        }
+        return totalItem;*/
     }
 
     public void fillShippingAddressInfo(String email, String firstname, String lastname,
@@ -100,11 +106,13 @@ public class MagentoPage {
         visit("https://magento.softwaretestingboard.com/");
     }
 
-    //Todo: need to update to remove check !waitCheckoutLoading()
     public void navigateToCheckoutPage(){
         click(showCartElem);
         click(checkoutButton);
         waitLoading(checkoutLoaderElem);
+/*        if (!waitLoading(checkoutLoaderElem)){
+            System.out.println("CheckoutPage is not loaded completely");
+        }*/
     }
 
     public void selectFixedMethod(){
@@ -139,6 +147,12 @@ public class MagentoPage {
     public void selectViewDetailProduct(int index){
         waitLoading(inactiveItemsInCart);
         click(By.xpath(String.format(viewDetailsProduct,index)));
+
+/*        if (waitLoading(inactiveItemsInCart)){
+            click(By.xpath(String.format(viewDetailsProduct,index)));
+        }else {
+            System.out.println("inactiveItemsInCart is not disappeared");
+        }*/
     }
 
     public void unselectViewDetailProduct(int index){

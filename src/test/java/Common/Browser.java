@@ -76,7 +76,6 @@ public class Browser {
         return new Select(driver.findElement(element));
     }
 
-    //Todo: need to handle waitLoading() method
     public static void waitLoading(By element){
         wait.until(ExpectedConditions.invisibilityOfElementLocated(element));
     }
