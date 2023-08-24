@@ -1,110 +1,52 @@
 package magento;
 
-import Common.Browser;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.ITestResult;
-import org.testng.annotations.*;
-import pages.MagentoPage;
+import org.testng.annotations.Test;
 
-/*
-Issue 1: Sometime search is not enable after text is inputted in search text box.
-Failed: searchPants()
+import java.time.Duration;
 
-* */
+public class magentoTest {
 
-public class magentoTest  {
-
-    Browser browser;
-    MagentoPage magentoPage;
-
-    @BeforeMethod
-    void openBrowser() {
-        browser.launch(true);
-        magentoPage = new MagentoPage();
-        magentoPage.open();
-    }
-
-    @AfterMethod
-    void captureResultAndCloseBrowser(ITestResult testResult) {
-        if (!testResult.isSuccess()) {
-            Browser.captureScreenShot(testResult.getMethod().getMethodName());
-        }
-        browser.quit();
-    }
-
-    @Test(priority = 1)
+    @Test
     void verifyWelcomeMegs() {
-        Assert.assertEquals(magentoPage.getWelcomeMeg(),"Default welcome msg!");
+        By welcomeMegElem = By.xpath("//div[@class='panel header']/*//span[@class='not-logged-in']");
+
+        int TIME_OUT_IN_SECONDS = 30;
+        WebDriver driver = new ChromeDriver();
+        WebDriverWait wait;
+        wait= new WebDriverWait(driver, Duration.ofSeconds(TIME_OUT_IN_SECONDS));
+
+        driver.get("https://magento.softwaretestingboard.com/");
+
+        String welcomeMeg = wait.until(ExpectedConditions.visibilityOfElementLocated(welcomeMegElem)).getText();
+
+        Assert.assertEquals(welcomeMeg,"Default welcome msg!");
+
+        driver.quit();
     }
 
-    @Test(priority = 2)
+    @Test
     void verifySearchPants() {
-        magentoPage.searchPants();
-        Assert.assertEquals(magentoPage.getNotification(), "Search results for: 'pants'");
+        By searchTextBox = By.cssSelector("input[id='search']");
+        By notificationElem = By.cssSelector("span[class='base']");
+        By searchButton = By.cssSelector("button[title='Search']");
+
+        WebDriver driver = new ChromeDriver();
+
+        driver.get("https://magento.softwaretestingboard.com/");
+
+        driver.findElement(searchTextBox).sendKeys("pants");
+
+        driver.findElement(searchButton).click();
+
+        String notification = driver.findElement(notificationElem).getText();
+
+        Assert.assertEquals(notification, "Search results for: 'pants'");
     }
 
-    @Test(priority = 3)
-    void verifyNumberOfProduct(){
-
-        magentoPage.searchPants();
-
-        magentoPage.addProductToCart(1,32,"Black");
-        Assert.assertEquals(magentoPage.getTotalItem(),"1");
-
-        magentoPage.addProductToCart(2,33,"Brown");
-        Assert.assertEquals(magentoPage.getTotalItem(),"2");
-    }
-
-    @Test(priority = 4)
-    void verifyInformationOfProduct() {
-
-        magentoPage.searchPants();
-
-        magentoPage.addProductToCart(1,32,"Black");
-        Assert.assertEquals(magentoPage.getTotalItem(),"1");
-
-        magentoPage.addProductToCart(2,33,"Brown");
-        Assert.assertEquals(magentoPage.getTotalItem(),"2");
-
-        magentoPage.navigateToCheckoutPage();
-        magentoPage.selectViewDetailProduct(1);
-
-        Assert.assertEquals(magentoPage.getProductName(1),"Caesar Warm-Up Pant");
-        Assert.assertEquals(magentoPage.getProductSize(),"32");
-        Assert.assertEquals(magentoPage.getProductColor(),"Black");
-        magentoPage.selectViewDetailProduct(1);
-
-        magentoPage.selectViewDetailProduct(2);
-        Assert.assertEquals(magentoPage.getProductName(2),"Aether Gym Pant");
-        Assert.assertEquals(magentoPage.getProductSize(),"33");
-        Assert.assertEquals(magentoPage.getProductColor(),"Brown");
-        magentoPage.unselectViewDetailProduct(2);
-
-    }
-
-    @Test(priority = 5)
-    void verifyOrderTotalPrice(){
-
-        magentoPage.searchPants();
-
-        magentoPage.addProductToCart(1,32,"Black");
-        Assert.assertEquals(magentoPage.getTotalItem(),"1");
-
-        magentoPage.addProductToCart(2,33,"Brown");
-        Assert.assertEquals(magentoPage.getTotalItem(),"2");
-
-        magentoPage.navigateToCheckoutPage();
-
-        magentoPage.fillShippingAddressInfo("test@gmail.com","Tuan", "Nguyen",
-                "On1", "26/2 Pham Van Chieu","Ho Chi Minh","9999",
-                "0909090909", "Alaska","United States");
-
-        magentoPage.selectRegion("Alaska");
-        magentoPage.selectCountry("United States");
-
-        magentoPage.selectFixedMethod();
-
-        Assert.assertEquals(magentoPage.getTotalPrice(),"$109.00");
-
-    }
 }

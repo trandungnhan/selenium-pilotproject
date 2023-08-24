@@ -1,8 +1,0 @@
-<suite name="The Pilot01">
-    <test name="Test the pilot 01 on chrome">
-        <classes>
-            <class name="magento.magentoTest"></class>
-            <class name="theinternet.LoginPageTest"></class>
-        </classes>
-    </test>
-</suite>

@@ -3,7 +3,6 @@ package theinternet;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -11,12 +10,7 @@ public class LoginPageTest {
 
     @Test
     void LoginSuccess(){
-        //WebDriver driver = new ChromeDriver();
-        WebDriver driver;
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless=new");
-        driver = new ChromeDriver(chromeOptions);
-
+        WebDriver driver = new ChromeDriver();
         driver.get("https://the-internet.herokuapp.com/login");
 
         By usernameTextBox = By.id("username");
@@ -31,11 +25,11 @@ public class LoginPageTest {
 
         String successfulMeg = driver.findElement(messageElem).getText();
         Assert.assertEquals(successfulMeg,"Welcome to the Secure Area. When you are done click logout below.");
-        driver.quit();
+
+
+
 
     }
-
-
 
 
 }
